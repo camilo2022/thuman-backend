@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable as Auditing;
+
+class CIESubgroup extends Model implements Auditable
+{
+    use Auditing, SoftDeletes;
+
+    protected $table = 'subitems';
+
+    protected $fillable = [
+        'item_id',
+        'name',
+        'description',
+        'settings'
+    ];
+
+    protected $auditInclude = [
+        'item_id',
+        'name',
+        'description',
+        'settings'
+    ];
+
+    protected $casts = [
+        'settings' => 'object'
+    ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('item_id', function (Builder $builder) {
+            $builder->where('item_id', 50);
+        });
+
+        static::creating(function ($model) {
+            $model->item_id = 50;
+        });
+
+        static::updating(function ($model) {
+            $model->item_id = 50;
+        });
+    }
+
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function cie_group(): MorphToMany
+    {
+        return $this->morphToMany(CIEGroup::class, 'model', 'model_has_subitems', 'model_id', 'subitem_id');
+    }
+
+    public function cie_codes(): MorphToMany
+    {
+        return $this->morphedByMany(CIECode::class, 'model', 'model_has_subitems', 'subitem_id', 'model_id');
+    }
+}

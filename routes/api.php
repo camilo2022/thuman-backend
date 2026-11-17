@@ -1,0 +1,1615 @@
+<?php
+
+use App\Infrastructure\Controllers\Absence\AbsenceAllController;
+use App\Infrastructure\Controllers\Absence\AbsenceApprovedController;
+use App\Infrastructure\Controllers\Absence\AbsenceFindController;
+use App\Infrastructure\Controllers\Absence\AbsenceRejectedController;
+use App\Infrastructure\Controllers\Absence\AbsenceStoreController;
+use App\Infrastructure\Controllers\Absence\AbsenceUpdateController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelAllController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelDeleteController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelFindController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelRestoreController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelStoreController;
+use App\Infrastructure\Controllers\AcademicLevel\AcademicLevelUpdateController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeAllController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeDeleteController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeFindController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeRestoreController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeStoreController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeUpdateController;
+use App\Infrastructure\Controllers\Area\AreaAllController;
+use App\Infrastructure\Controllers\Area\AreaDeleteController;
+use App\Infrastructure\Controllers\Area\AreaFindController;
+use App\Infrastructure\Controllers\Area\AreaRestoreController;
+use App\Infrastructure\Controllers\Area\AreaStoreController;
+use App\Infrastructure\Controllers\Area\AreaUpdateController;
+use App\Infrastructure\Controllers\Profile\AcademicQualification\AcademicQualificationAllController;
+use App\Infrastructure\Controllers\Profile\AcademicQualification\AcademicQualificationDeleteController;
+use App\Infrastructure\Controllers\Profile\AcademicQualification\AcademicQualificationFindController;
+use App\Infrastructure\Controllers\Profile\AcademicQualification\AcademicQualificationStoreController;
+use App\Infrastructure\Controllers\Profile\AcademicQualification\AcademicQualificationUpdateController;
+use App\Infrastructure\Controllers\Auth\AuthLoginController;
+use App\Infrastructure\Controllers\Auth\AuthLogoutController;
+use App\Infrastructure\Controllers\Authorization\Permission\PermissionAllController;
+use App\Infrastructure\Controllers\Authorization\Permission\PermissionFindController;
+use App\Infrastructure\Controllers\Authorization\Permission\PermissionStoreController;
+use App\Infrastructure\Controllers\Authorization\Permission\PermissionUpdateController;
+use App\Infrastructure\Controllers\Authorization\Role\RoleAllController;
+use App\Infrastructure\Controllers\Authorization\Role\RoleFindController;
+use App\Infrastructure\Controllers\Authorization\Role\RoleStoreController;
+use App\Infrastructure\Controllers\Authorization\Role\RoleToggleController;
+use App\Infrastructure\Controllers\Authorization\Role\RoleUpdateController;
+use App\Infrastructure\Controllers\Bank\BankAllController;
+use App\Infrastructure\Controllers\Bank\BankDeleteController;
+use App\Infrastructure\Controllers\Bank\BankFindController;
+use App\Infrastructure\Controllers\Bank\BankRestoreController;
+use App\Infrastructure\Controllers\Bank\BankStoreController;
+use App\Infrastructure\Controllers\Bank\BankToggleController;
+use App\Infrastructure\Controllers\Bank\BankUpdateController;
+use App\Infrastructure\Controllers\BankAccountType\BankAccountTypeAllController;
+use App\Infrastructure\Controllers\BankAccountType\BankAccountTypeFindController;
+use App\Infrastructure\Controllers\BankCertificate\BankCertificateApprovedController;
+use App\Infrastructure\Controllers\BankCertificate\BankCertificateFindController;
+use App\Infrastructure\Controllers\BankCertificate\BankCertificateRefreshedController;
+use App\Infrastructure\Controllers\BankCertificate\BankCertificateStoreController;
+use App\Infrastructure\Controllers\BankCertificate\BankCertificateUpdateController;
+use App\Infrastructure\Controllers\Benefit\BenefitAllController;
+use App\Infrastructure\Controllers\Benefit\BenefitDeleteController;
+use App\Infrastructure\Controllers\Benefit\BenefitFindController;
+use App\Infrastructure\Controllers\Benefit\BenefitRestoreController;
+use App\Infrastructure\Controllers\Benefit\BenefitStoreController;
+use App\Infrastructure\Controllers\Benefit\BenefitUpdateController;
+use App\Infrastructure\Controllers\BloodType\BloodTypeAllController;
+use App\Infrastructure\Controllers\BloodType\BloodTypeFindController;
+use App\Infrastructure\Controllers\CIEChapter\CIEChapterAllController;
+use App\Infrastructure\Controllers\CIEChapter\CIEChapterFindController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIEGroupAllController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIEGroupFindController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIESubgroup\CIECode\CIECodeAllController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIESubgroup\CIECode\CIECodeFindController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIESubgroup\CIESubgroupAllController;
+use App\Infrastructure\Controllers\CIEChapter\CIEGroup\CIESubgroup\CIESubgroupFindController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundAllController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundDeleteController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundFindController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundRestoreController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundStoreController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundToggleController;
+use App\Infrastructure\Controllers\CompensationFund\CompensationFundUpdateController;
+use App\Infrastructure\Controllers\CompensationFundAffiliation\CompensationFundAffiliationApprovedController;
+use App\Infrastructure\Controllers\CompensationFundAffiliation\CompensationFundAffiliationFindController;
+use App\Infrastructure\Controllers\CompensationFundAffiliation\CompensationFundAffiliationRefreshedController;
+use App\Infrastructure\Controllers\CompensationFundAffiliation\CompensationFundAffiliationStoreController;
+use App\Infrastructure\Controllers\CompensationFundAffiliation\CompensationFundAffiliationUpdateController;
+use App\Infrastructure\Controllers\Contract\ContractAllController;
+use App\Infrastructure\Controllers\Contract\ContractApprovedController;
+use App\Infrastructure\Controllers\Contract\ContractFindController;
+use App\Infrastructure\Controllers\Contract\ContractNotifyTokenController;
+use App\Infrastructure\Controllers\Contract\ContractRefreshedController;
+use App\Infrastructure\Controllers\Contract\ContractRejectedController;
+use App\Infrastructure\Controllers\Contract\ContractSignedLegalRepresentativeController;
+use App\Infrastructure\Controllers\Contract\ContractSignedPersonController;
+use App\Infrastructure\Controllers\Contract\ContractStoreController;
+use App\Infrastructure\Controllers\Contract\ContractUpdateController;
+use App\Infrastructure\Controllers\Contract\ContractVerifyTokenController;
+use App\Infrastructure\Controllers\Contract\ContractWithdrawnedController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeAllController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeDeleteController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeFindController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeRestoreController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeStoreController;
+use App\Infrastructure\Controllers\ContractType\ContractTypeUpdateController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeAllController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeDeleteController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeFindController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeRestoreController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeSettingController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeStoreController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeToggleController;
+use App\Infrastructure\Controllers\DisabilityType\DisabilityTypeUpdateController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeAllController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeDeleteController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeFindController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeRestoreController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeSettingController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeStoreController;
+use App\Infrastructure\Controllers\DocumentType\DocumentTypeUpdateController;
+use App\Infrastructure\Controllers\Employee\EmployeeAllController;
+use App\Infrastructure\Controllers\Employee\EmployeeFindController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseAllController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseDeleteController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseFindController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseRestoreController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseStoreController;
+use App\Infrastructure\Controllers\Enterprise\EnterpriseUpdateController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityProfileController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\EntityUpdateController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Headquarter\HeadquarterUpdateController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplatePreviewController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateSettingController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Template\TemplateUpdateController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeAllController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeDeleteController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeFindController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeRestoreController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeStoreController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeUpdateController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramAllController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramDeleteController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramFindController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramRestoreController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramStoreController;
+use App\Infrastructure\Controllers\EpidemiologicalProgram\EpidemiologicalProgramUpdateController;
+use App\Infrastructure\Controllers\FileSubtype\FileSubtypeAllController;
+use App\Infrastructure\Controllers\FileSubtype\FileSubtypeFindController;
+use App\Infrastructure\Controllers\FileType\FileTypeAllController;
+use App\Infrastructure\Controllers\FileType\FileTypeFindController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentAllController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentDeleteController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentFindController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentRestoreController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentStoreController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentToggleController;
+use App\Infrastructure\Controllers\FiscalDocument\FiscalDocumentUpdateController;
+use App\Infrastructure\Controllers\FiscalDocumentCertificate\FiscalDocumentCertificateApprovedController;
+use App\Infrastructure\Controllers\FiscalDocumentCertificate\FiscalDocumentCertificateFindController;
+use App\Infrastructure\Controllers\FiscalDocumentCertificate\FiscalDocumentCertificateRefreshedController;
+use App\Infrastructure\Controllers\FiscalDocumentCertificate\FiscalDocumentCertificateStoreController;
+use App\Infrastructure\Controllers\FiscalDocumentCertificate\FiscalDocumentCertificateUpdateController;
+use App\Infrastructure\Controllers\Form\FormAllController;
+use App\Infrastructure\Controllers\Form\FormDeleteController;
+use App\Infrastructure\Controllers\Form\FormFindController;
+use App\Infrastructure\Controllers\Form\FormRestoreController;
+use App\Infrastructure\Controllers\Form\FormStoreController;
+use App\Infrastructure\Controllers\Form\FormUpdateController;
+use App\Infrastructure\Controllers\FormationStatus\FormationStatusAllController;
+use App\Infrastructure\Controllers\FormationStatus\FormationStatusFindController;
+use App\Infrastructure\Controllers\FormType\FormTypeAllController;
+use App\Infrastructure\Controllers\FormType\FormTypeFindController;
+use App\Infrastructure\Controllers\Gender\GenderAllController;
+use App\Infrastructure\Controllers\Gender\GenderFindController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityAllController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityDeleteController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityFindController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityRestoreController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityStoreController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityToggleController;
+use App\Infrastructure\Controllers\HealthEntity\HealthEntityUpdateController;
+use App\Infrastructure\Controllers\HealthEntityAffiliation\HealthEntityAffiliationApprovedController;
+use App\Infrastructure\Controllers\HealthEntityAffiliation\HealthEntityAffiliationFindController;
+use App\Infrastructure\Controllers\HealthEntityAffiliation\HealthEntityAffiliationRefreshedController;
+use App\Infrastructure\Controllers\HealthEntityAffiliation\HealthEntityAffiliationStoreController;
+use App\Infrastructure\Controllers\HealthEntityAffiliation\HealthEntityAffiliationUpdateController;
+use App\Infrastructure\Controllers\HealthEntityType\HealthEntityTypeAllController;
+use App\Infrastructure\Controllers\HealthEntityType\HealthEntityTypeFindController;
+use App\Infrastructure\Controllers\HiringReason\HiringReasonAllController;
+use App\Infrastructure\Controllers\HiringReason\HiringReasonFindController;
+use App\Infrastructure\Controllers\Language\LanguageAllController;
+use App\Infrastructure\Controllers\Language\LanguageFindController;
+use App\Infrastructure\Controllers\LanguageLevel\LanguageLevelAllController;
+use App\Infrastructure\Controllers\LanguageLevel\LanguageLevelFindController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeAllController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeDeleteController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeFindController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeRestoreController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeSettingController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeStoreController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeToggleController;
+use App\Infrastructure\Controllers\LicenseType\LicenseTypeUpdateController;
+use App\Infrastructure\Controllers\Profile\LanguageProficiencie\LanguageProficiencieAllController;
+use App\Infrastructure\Controllers\Profile\LanguageProficiencie\LanguageProficiencieDeleteController;
+use App\Infrastructure\Controllers\Profile\LanguageProficiencie\LanguageProficiencieFindController;
+use App\Infrastructure\Controllers\Profile\LanguageProficiencie\LanguageProficiencieStoreController;
+use App\Infrastructure\Controllers\Profile\LanguageProficiencie\LanguageProficiencieUpdateController;
+use App\Infrastructure\Controllers\Location\City\CityAllController;
+use App\Infrastructure\Controllers\Location\City\CityFindController;
+use App\Infrastructure\Controllers\Location\Country\CountryAllController;
+use App\Infrastructure\Controllers\Location\Country\CountryFindController;
+use App\Infrastructure\Controllers\Location\Country\CountrySettingController;
+use App\Infrastructure\Controllers\Location\Departament\DepartamentAllController;
+use App\Infrastructure\Controllers\Location\Departament\DepartamentFindController;
+use App\Infrastructure\Controllers\Location\Region\RegionAllController;
+use App\Infrastructure\Controllers\Location\Region\RegionFindController;
+use App\Infrastructure\Controllers\Location\Subregion\SubregionAllController;
+use App\Infrastructure\Controllers\Location\Subregion\SubregionFindController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusAllController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusDeleteController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusFindController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusRestoreController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusStoreController;
+use App\Infrastructure\Controllers\MaritalStatus\MaritalStatusUpdateController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleAllController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleDeleteController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleFindController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleRestoreController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleStoreController;
+use App\Infrastructure\Controllers\Navigation\Module\ModuleUpdateController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleAllController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleDeleteController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleFindController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleRestoreController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleStoreController;
+use App\Infrastructure\Controllers\Navigation\Module\Submodule\SubmoduleUpdateController;
+use App\Infrastructure\Controllers\NotificationChannel\NotificationChannelAllController;
+use App\Infrastructure\Controllers\NotificationChannel\NotificationChannelFindController;
+use App\Infrastructure\Controllers\NotificationChannel\NotificationChannelSettingController;
+use App\Infrastructure\Controllers\NotificationPlatform\NotificationPlatformAllController;
+use App\Infrastructure\Controllers\NotificationPlatform\NotificationPlatformFindController;
+use App\Infrastructure\Controllers\NotificationType\NotificationTypeAllController;
+use App\Infrastructure\Controllers\NotificationType\NotificationTypeFindController;
+use App\Infrastructure\Controllers\NotificationType\NotificationTypeSettingController;
+use App\Infrastructure\Controllers\PaymentPeriod\PaymentPeriodAllController;
+use App\Infrastructure\Controllers\PaymentPeriod\PaymentPeriodFindController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundAllController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundDeleteController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundFindController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundRestoreController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundStoreController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundToggleController;
+use App\Infrastructure\Controllers\PensionFund\PensionFundUpdateController;
+use App\Infrastructure\Controllers\PensionFundAffiliation\PensionFundAffiliationApprovedController;
+use App\Infrastructure\Controllers\PensionFundAffiliation\PensionFundAffiliationFindController;
+use App\Infrastructure\Controllers\PensionFundAffiliation\PensionFundAffiliationRefreshedController;
+use App\Infrastructure\Controllers\PensionFundAffiliation\PensionFundAffiliationStoreController;
+use App\Infrastructure\Controllers\PensionFundAffiliation\PensionFundAffiliationUpdateController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeAllController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeDeleteController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeFindController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeRestoreController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeSettingController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeStoreController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeToggleController;
+use App\Infrastructure\Controllers\AbsenceType\AbsenceTypeUpdateController;
+use App\Infrastructure\Controllers\AddendumType\AddendumTypeSettingController;
+use App\Infrastructure\Controllers\Auth\AuthInternal\AuthInternalLoginController;
+use App\Infrastructure\Controllers\Auth\AuthInternal\AuthInternalLogoutController;
+use App\Infrastructure\Controllers\CertificateType\CertificateTypeAllController;
+use App\Infrastructure\Controllers\CertificateType\CertificateTypeFindController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumAllController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumApprovedController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumFindController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumNotifyTokenController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumRefreshedController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumRejectedController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumSignedLegalRepresentativeController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumSignedPersonController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumStoreController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumUpdateController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumVerifyTokenController;
+use App\Infrastructure\Controllers\Contract\Addendum\AddendumWithdrawnedController;
+use App\Infrastructure\Controllers\Contract\ContractPreviewController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyActivedController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyAllController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyCanceledController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyExpiredController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyFindController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyStoreController;
+use App\Infrastructure\Controllers\Contract\Policy\PolicyUpdateController;
+use App\Infrastructure\Controllers\Disability\DisabilityAllController;
+use App\Infrastructure\Controllers\Disability\DisabilityApprovedController;
+use App\Infrastructure\Controllers\Disability\DisabilityFindController;
+use App\Infrastructure\Controllers\Disability\DisabilityRejectedController;
+use App\Infrastructure\Controllers\Disability\DisabilityStoreController;
+use App\Infrastructure\Controllers\Disability\DisabilityUpdateController;
+use App\Infrastructure\Controllers\Employee\EmployeeSettingController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\AllyUpdateController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignUpdateController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignDeleteController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Ally\Campaign\CampaignRestoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\Gallery\GalleryDestroyController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureAllController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureApprovedController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureFindController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureInactivedController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureRejectedController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureStoreController;
+use App\Infrastructure\Controllers\Enterprise\Entity\OrganizationalStructure\OrganizationalStructureUpdateController;
+use App\Infrastructure\Controllers\EntityType\EntityTypeToggleController;
+use App\Infrastructure\Controllers\Induction\InductionAllController;
+use App\Infrastructure\Controllers\Induction\InductionDeleteController;
+use App\Infrastructure\Controllers\Induction\InductionFindController;
+use App\Infrastructure\Controllers\Induction\InductionRestoreController;
+use App\Infrastructure\Controllers\Induction\InductionStoreController;
+use App\Infrastructure\Controllers\Induction\InductionUpdateController;
+use App\Infrastructure\Controllers\Induction\Step\StepAllController;
+use App\Infrastructure\Controllers\Induction\Step\StepDeleteController;
+use App\Infrastructure\Controllers\Induction\Step\StepFindController;
+use App\Infrastructure\Controllers\Induction\Step\StepRestoreController;
+use App\Infrastructure\Controllers\Induction\Step\StepStoreController;
+use App\Infrastructure\Controllers\Induction\Step\StepUpdateController;
+use App\Infrastructure\Controllers\License\LicenseAllController;
+use App\Infrastructure\Controllers\License\LicenseApprovedController;
+use App\Infrastructure\Controllers\License\LicenseFindController;
+use App\Infrastructure\Controllers\License\LicenseRejectedController;
+use App\Infrastructure\Controllers\License\LicenseStoreController;
+use App\Infrastructure\Controllers\License\LicenseUpdateController;
+use App\Infrastructure\Controllers\Person\PersonAllController;
+use App\Infrastructure\Controllers\Person\PersonDeleteController;
+use App\Infrastructure\Controllers\Person\PersonFindController;
+use App\Infrastructure\Controllers\Person\PersonNotifyEmailController;
+use App\Infrastructure\Controllers\Person\PersonNotifyPhoneNumberController;
+use App\Infrastructure\Controllers\Person\PersonRestoreController;
+use App\Infrastructure\Controllers\Person\PersonStoreController;
+use App\Infrastructure\Controllers\Person\PersonToggleController;
+use App\Infrastructure\Controllers\Person\PersonUpdateController;
+use App\Infrastructure\Controllers\Person\PersonVerifyEmailController;
+use App\Infrastructure\Controllers\Person\PersonVerifyPhoneNumberController;
+use App\Infrastructure\Controllers\PersonType\PersonTypeAllController;
+use App\Infrastructure\Controllers\PersonType\PersonTypeFindController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeAllController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeDeleteController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeFindController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeRestoreController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeStoreController;
+use App\Infrastructure\Controllers\PolicyType\PolicyTypeUpdateController;
+use App\Infrastructure\Controllers\Position\AcademicRequirement\AcademicRequirementAllController;
+use App\Infrastructure\Controllers\Position\AcademicRequirement\AcademicRequirementDeleteController;
+use App\Infrastructure\Controllers\Position\AcademicRequirement\AcademicRequirementFindController;
+use App\Infrastructure\Controllers\Position\AcademicRequirement\AcademicRequirementStoreController;
+use App\Infrastructure\Controllers\Position\AcademicRequirement\AcademicRequirementUpdateController;
+use App\Infrastructure\Controllers\Position\PositionAllController;
+use App\Infrastructure\Controllers\Position\PositionDeleteController;
+use App\Infrastructure\Controllers\Position\PositionFindController;
+use App\Infrastructure\Controllers\Position\PositionRestoreController;
+use App\Infrastructure\Controllers\Position\PositionStoreController;
+use App\Infrastructure\Controllers\Position\PositionToggleController;
+use App\Infrastructure\Controllers\Position\PositionUpdateController;
+use App\Infrastructure\Controllers\Position\RequiredExperience\RequiredExperienceAllController;
+use App\Infrastructure\Controllers\Position\RequiredExperience\RequiredExperienceDeleteController;
+use App\Infrastructure\Controllers\Position\RequiredExperience\RequiredExperienceFindController;
+use App\Infrastructure\Controllers\Position\RequiredExperience\RequiredExperienceStoreController;
+use App\Infrastructure\Controllers\Position\RequiredExperience\RequiredExperienceUpdateController;
+use App\Infrastructure\Controllers\Position\RequiredSkill\RequiredSkillAllController;
+use App\Infrastructure\Controllers\Position\RequiredSkill\RequiredSkillDeleteController;
+use App\Infrastructure\Controllers\Position\RequiredSkill\RequiredSkillFindController;
+use App\Infrastructure\Controllers\Position\RequiredSkill\RequiredSkillStoreController;
+use App\Infrastructure\Controllers\Position\RequiredSkill\RequiredSkillUpdateController;
+use App\Infrastructure\Controllers\Position\Responsability\ResponsabilityAllController;
+use App\Infrastructure\Controllers\Position\Responsability\ResponsabilityDeleteController;
+use App\Infrastructure\Controllers\Position\Responsability\ResponsabilityFindController;
+use App\Infrastructure\Controllers\Position\Responsability\ResponsabilityStoreController;
+use App\Infrastructure\Controllers\Position\Responsability\ResponsabilityUpdateController;
+use App\Infrastructure\Controllers\Profile\EmergencyContact\EmergencyContactFindController;
+use App\Infrastructure\Controllers\Profile\EmergencyContact\EmergencyContactStoreController;
+use App\Infrastructure\Controllers\Profile\EmergencyContact\EmergencyContactUpdateController;
+use App\Infrastructure\Controllers\Profile\ProfessionalExperience\ProfessionalExperienceAllController;
+use App\Infrastructure\Controllers\Profile\ProfessionalExperience\ProfessionalExperienceDeleteController;
+use App\Infrastructure\Controllers\Profile\ProfessionalExperience\ProfessionalExperienceFindController;
+use App\Infrastructure\Controllers\Profile\ProfessionalExperience\ProfessionalExperienceStoreController;
+use App\Infrastructure\Controllers\Profile\ProfessionalExperience\ProfessionalExperienceUpdateController;
+use App\Infrastructure\Controllers\Profile\ProfessionalSkill\ProfessionalSkillAllController;
+use App\Infrastructure\Controllers\Profile\ProfessionalSkill\ProfessionalSkillDeleteController;
+use App\Infrastructure\Controllers\Profile\ProfessionalSkill\ProfessionalSkillFindController;
+use App\Infrastructure\Controllers\Profile\ProfessionalSkill\ProfessionalSkillStoreController;
+use App\Infrastructure\Controllers\Profile\ProfessionalSkill\ProfessionalSkillUpdateController;
+use App\Infrastructure\Controllers\Profile\ProfileFindController;
+use App\Infrastructure\Controllers\Profile\ProfileStoreController;
+use App\Infrastructure\Controllers\Profile\ProfileUpdateController;
+use App\Infrastructure\Controllers\ProfileCategory\ProfileCategoryAllController;
+use App\Infrastructure\Controllers\ProfileCategory\ProfileCategoryFindController;
+use App\Infrastructure\Controllers\Progress\ProgressFindController;
+use App\Infrastructure\Controllers\Progress\ProgressFinishController;
+use App\Infrastructure\Controllers\Progress\ProgressStartController;
+use App\Infrastructure\Controllers\Relationship\RelationshipAllController;
+use App\Infrastructure\Controllers\Relationship\RelationshipFindController;
+use App\Infrastructure\Controllers\Resignation\ResignationAllController;
+use App\Infrastructure\Controllers\Resignation\ResignationApprovedController;
+use App\Infrastructure\Controllers\Resignation\ResignationFindController;
+use App\Infrastructure\Controllers\Resignation\ResignationRejectedController;
+use App\Infrastructure\Controllers\Resignation\ResignationStoreController;
+use App\Infrastructure\Controllers\Resignation\ResignationUpdateController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeAllController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeDeleteController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeFindController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeRestoreController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeSettingController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeStoreController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeToggleController;
+use App\Infrastructure\Controllers\ResignationType\ResignationTypeUpdateController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerAllController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerDeleteController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerFindController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerRestoreController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerStoreController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerToggleController;
+use App\Infrastructure\Controllers\RiskManager\RiskManagerUpdateController;
+use App\Infrastructure\Controllers\RiskManagerAffiliation\RiskManagerAffiliationApprovedController;
+use App\Infrastructure\Controllers\RiskManagerAffiliation\RiskManagerAffiliationFindController;
+use App\Infrastructure\Controllers\RiskManagerAffiliation\RiskManagerAffiliationRefreshedController;
+use App\Infrastructure\Controllers\RiskManagerAffiliation\RiskManagerAffiliationStoreController;
+use App\Infrastructure\Controllers\RiskManagerAffiliation\RiskManagerAffiliationUpdateController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderAllController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderDeleteController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderFindController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderRestoreController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderStoreController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderToggleController;
+use App\Infrastructure\Controllers\ServiceProvider\ServiceProviderUpdateController;
+use App\Infrastructure\Controllers\ServiceType\ServiceTypeAllController;
+use App\Infrastructure\Controllers\ServiceType\ServiceTypeFindController;
+use App\Infrastructure\Controllers\Severance\SeveranceAllController;
+use App\Infrastructure\Controllers\Severance\SeveranceApprovedController;
+use App\Infrastructure\Controllers\Severance\SeveranceFindController;
+use App\Infrastructure\Controllers\Severance\SeveranceRejectedController;
+use App\Infrastructure\Controllers\Severance\SeveranceStoreController;
+use App\Infrastructure\Controllers\Severance\SeveranceUpdateController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeAllController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeDeleteController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeFindController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeRestoreController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeSettingController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeStoreController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeToggleController;
+use App\Infrastructure\Controllers\SeveranceType\SeveranceTypeUpdateController;
+use App\Infrastructure\Controllers\Sex\SexAllController;
+use App\Infrastructure\Controllers\Sex\SexFindController;
+use App\Infrastructure\Controllers\Size\SizeAllController;
+use App\Infrastructure\Controllers\Size\SizeFindController;
+use App\Infrastructure\Controllers\Skill\SkillAllController;
+use App\Infrastructure\Controllers\Skill\SkillDeleteController;
+use App\Infrastructure\Controllers\Skill\SkillFindController;
+use App\Infrastructure\Controllers\Skill\SkillRestoreController;
+use App\Infrastructure\Controllers\Skill\SkillStoreController;
+use App\Infrastructure\Controllers\Skill\SkillUpdateController;
+use App\Infrastructure\Controllers\SkillType\SkillTypeAllController;
+use App\Infrastructure\Controllers\SkillType\SkillTypeFindController;
+use App\Infrastructure\Controllers\Survey\SurveyAllController;
+use App\Infrastructure\Controllers\Survey\SurveyFindController;
+use App\Infrastructure\Controllers\Survey\SurveyStoreController;
+use App\Infrastructure\Controllers\Termination\TerminationAllController;
+use App\Infrastructure\Controllers\Termination\TerminationApprovedController;
+use App\Infrastructure\Controllers\Termination\TerminationFindController;
+use App\Infrastructure\Controllers\Termination\TerminationRejectedController;
+use App\Infrastructure\Controllers\Termination\TerminationStoreController;
+use App\Infrastructure\Controllers\Termination\TerminationUpdateController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonAllController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonDeleteController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonFindController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonRestoreController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonStoreController;
+use App\Infrastructure\Controllers\TerminationType\Reason\ReasonUpdateController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeAllController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeDeleteController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeFindController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeRestoreController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeSettingController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeStoreController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeToggleController;
+use App\Infrastructure\Controllers\TerminationType\TerminationTypeUpdateController;
+use App\Infrastructure\Controllers\User\UserAllController;
+use App\Infrastructure\Controllers\User\UserFindController;
+use App\Infrastructure\Controllers\User\UserRecoveryEmailController;
+use App\Infrastructure\Controllers\User\UserRecoveryPhoneNumberController;
+use App\Infrastructure\Controllers\User\UserStoreController;
+use App\Infrastructure\Controllers\User\UserToggleController;
+use App\Infrastructure\Controllers\User\UserUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationAllController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationHiringController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationFinalistController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationFindController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationNotifyTokenController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationRejectedController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationReviewController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationTestController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationVerifyTokenController;
+use App\Infrastructure\Controllers\Vacant\Application\ApplicationWithdrawnedController;
+use App\Infrastructure\Controllers\Vacant\Application\CriminalRecord\CriminalRecordFindController;
+use App\Infrastructure\Controllers\Vacant\Application\CriminalRecord\CriminalRecordStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\CriminalRecord\CriminalRecordUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamMedical\ExamMedicalAllController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamMedical\ExamMedicalFindController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamMedical\ExamMedicalReviewerController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamMedical\ExamMedicalStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamMedical\ExamMedicalUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamPolygraph\ExamPolygraphAllController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamPolygraph\ExamPolygraphFindController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamPolygraph\ExamPolygraphReviewerController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamPolygraph\ExamPolygraphStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\ExamPolygraph\ExamPolygraphUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialAllController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialFindController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialLeaderController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialReviewerController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewInitial\InterviewInitialUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewPsychotechnical\InterviewPsychotechnicalAllController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewPsychotechnical\InterviewPsychotechnicalFindController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewPsychotechnical\InterviewPsychotechnicalPsychologistController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewPsychotechnical\InterviewPsychotechnicalStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewPsychotechnical\InterviewPsychotechnicalUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalAllController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalFindController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalFinishController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalPsychologistController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalStartController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\TestPsychotechnical\TestPsychotechnicalUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalAllController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalFindController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalFinishController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalLeaderController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalStartController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\TestTechnical\TestTechnicalUpdateController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewVideo\InterviewVideoFindController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewVideo\InterviewVideoStoreController;
+use App\Infrastructure\Controllers\Vacant\Application\InterviewVideo\InterviewVideoUpdateController;
+use App\Infrastructure\Controllers\Vacant\VacantAllController;
+use App\Infrastructure\Controllers\Vacant\VacantApprovedController;
+use App\Infrastructure\Controllers\Vacant\VacantFindController;
+use App\Infrastructure\Controllers\Vacant\VacantFinishedController;
+use App\Infrastructure\Controllers\Vacant\VacantPublishedController;
+use App\Infrastructure\Controllers\Vacant\VacantRejectedController;
+use App\Infrastructure\Controllers\Vacant\VacantReviewController;
+use App\Infrastructure\Controllers\Vacant\VacantStoreController;
+use App\Infrastructure\Controllers\Vacant\VacantUpdateController;
+use App\Infrastructure\Controllers\Vacation\VacationAllController;
+use App\Infrastructure\Controllers\Vacation\VacationApprovedController;
+use App\Infrastructure\Controllers\Vacation\VacationAvailabilityController;
+use App\Infrastructure\Controllers\Vacation\VacationFindController;
+use App\Infrastructure\Controllers\Vacation\VacationRejectedController;
+use App\Infrastructure\Controllers\Vacation\VacationStoreController;
+use App\Infrastructure\Controllers\Vacation\VacationUpdateController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeAllController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeDeleteController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeFindController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeRestoreController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeSettingController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeStoreController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeToggleController;
+use App\Infrastructure\Controllers\VacationType\VacationTypeUpdateController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementAllController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementDeleteController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementFindController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementRestoreController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementStoreController;
+use App\Infrastructure\Controllers\WorkArrangement\WorkArrangementUpdateController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayAllController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayDeleteController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayFindController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayRestoreController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayStoreController;
+use App\Infrastructure\Controllers\WorkDay\WorkDayUpdateController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
+
+RateLimiter::for('api', function ($request) {
+    return Limit::perMinute(1000)->by(optional($request->user())->id ?: $request->ip());
+});
+
+// API Routes
+Route::prefix('/')->group(function () {
+    Route::post('/Login', AuthLoginController::class);
+    Route::post('/Logout', AuthLogoutController::class);
+    Route::prefix('/Internal')->group(function () {
+        Route::post('/Login', AuthInternalLoginController::class);
+        Route::post('/Logout', AuthInternalLogoutController::class);
+    });
+});
+
+Route::prefix('/People')->group(function () {
+    Route::get('/All', PersonAllController::class);
+    Route::get('/Find/{personId?}', PersonFindController::class);
+    Route::post('/Store', PersonStoreController::class);
+    Route::post('/Update/{personId}', PersonUpdateController::class);
+    Route::put('/Toggle/{personId}', PersonToggleController::class);
+    Route::prefix('/Notify')->group(function () {
+        Route::post('/Email/{personId}', PersonNotifyEmailController::class);
+        Route::post('/PhoneNumber/{personId}', PersonNotifyPhoneNumberController::class);
+    });
+    Route::prefix('/Verify')->group(function () {
+        Route::put('/Email/{personId}', PersonVerifyEmailController::class);
+        Route::put('/PhoneNumber/{personId}', PersonVerifyPhoneNumberController::class);
+    });
+    Route::delete('/Delete/{personId}', PersonDeleteController::class);
+    Route::patch('/Restore/{personId}', PersonRestoreController::class);
+});
+
+Route::prefix('/Users')->group(function () {
+    Route::get('/All', UserAllController::class);
+    Route::get('/Find/{userId?}', UserFindController::class);
+    Route::post('/Store', UserStoreController::class);
+    Route::put('/Update/{userId}', UserUpdateController::class);
+    Route::put('/Toggle/{userId}', UserToggleController::class);
+    /*Route::delete('/Delete', UserDeleteController::class);
+    Route::patch('/Restore', UserRestoreController::class);*/
+    Route::prefix('/Recovery')->group(function () {
+        Route::post('/Email', UserRecoveryEmailController::class);
+        Route::post('/PhoneNumber', UserRecoveryPhoneNumberController::class);
+    });
+});
+
+Route::prefix('/Profiles')->group(function () {
+    Route::get('/Find/{profileId?}', ProfileFindController::class);
+    Route::post('/Store', ProfileStoreController::class);
+    Route::post('/Update/{profileId}', ProfileUpdateController::class);
+
+    Route::prefix('/AcademicQualifications')->group(function () {
+        Route::get('/All/{profileId}', AcademicQualificationAllController::class);
+        Route::get('/Find/{academicQualificationId}', AcademicQualificationFindController::class);
+        Route::post('/Store', AcademicQualificationStoreController::class);
+        Route::post('/Update/{academicQualificationId}', AcademicQualificationUpdateController::class);
+        Route::delete('/Delete/{academicQualificationId}', AcademicQualificationDeleteController::class);
+    });
+
+    Route::prefix('/LanguageProficiencies')->group(function () {
+        Route::get('/All/{profileId}', LanguageProficiencieAllController::class);
+        Route::get('/Find/{languageProficiencieId}', LanguageProficiencieFindController::class);
+        Route::post('/Store', LanguageProficiencieStoreController::class);
+        Route::post('/Update/{languageProficiencieId}', LanguageProficiencieUpdateController::class);
+        Route::delete('/Delete/{languageProficiencieId}', LanguageProficiencieDeleteController::class);
+    });
+
+    Route::prefix('/ProfessionalSkills')->group(function () {
+        Route::get('/All/{profileId}', ProfessionalSkillAllController::class);
+        Route::get('/Find/{professionalSkillId}', ProfessionalSkillFindController::class);
+        Route::post('/Store', ProfessionalSkillStoreController::class);
+        Route::put('/Update/{professionalSkillId}', ProfessionalSkillUpdateController::class);
+        Route::delete('/Delete/{professionalSkillId}', ProfessionalSkillDeleteController::class);
+    });
+
+    Route::prefix('/ProfessionalExperiences')->group(function () {
+        Route::get('/All/{profileId}', ProfessionalExperienceAllController::class);
+        Route::get('/Find/{professionalExperienceId}', ProfessionalExperienceFindController::class);
+        Route::post('/Store', ProfessionalExperienceStoreController::class);
+        Route::post('/Update/{professionalExperienceId}', ProfessionalExperienceUpdateController::class);
+        Route::delete('/Delete/{professionalExperienceId}', ProfessionalExperienceDeleteController::class);
+    });
+
+    Route::prefix('/EmergencyContacts')->group(function () {
+        Route::get('/Find/{emergencyContactId?}', EmergencyContactFindController::class);
+        Route::post('/Store', EmergencyContactStoreController::class);
+        Route::post('/Update/{emergencyContactId}', EmergencyContactUpdateController::class);
+    });
+});
+
+Route::prefix('/Enterprises')->group(function () {
+    Route::get('/All', EnterpriseAllController::class);
+    Route::get('/Find/{enterpriseId}', EnterpriseFindController::class);
+    Route::post('/Store', EnterpriseStoreController::class);
+    Route::post('/Update/{enterpriseId}', EnterpriseUpdateController::class);
+    Route::delete('/Delete/{enterpriseId}', EnterpriseDeleteController::class);
+    Route::patch('/Restore/{enterpriseId}', EnterpriseRestoreController::class);
+
+    Route::prefix('/Entities')->group(function () {
+        Route::get('/All/{enterpriseId?}', EntityAllController::class);
+        Route::get('/Find/{entityId}', EntityFindController::class);
+        Route::post('/Store', EntityStoreController::class);
+        Route::put('/Update/{entityId}', EntityUpdateController::class);
+        Route::post('/Profile/{entityId}', EntityProfileController::class);
+        Route::delete('/Delete/{entityId}', EntityDeleteController::class);
+        Route::patch('/Restore/{entityId}', EntityRestoreController::class);
+
+        Route::prefix('/Galleries')->group(function () {
+            Route::get('/All/{entityId}', GalleryAllController::class);
+            Route::get('/Find/{galleryId}', GalleryFindController::class);
+            Route::post('/Store', GalleryStoreController::class);
+            Route::delete('/Delete/{galleryId}', GalleryDeleteController::class);
+            Route::delete('/Destroy/{galleryId}', GalleryDestroyController::class);
+            Route::patch('/Restore/{galleryId}', GalleryRestoreController::class);
+        });
+
+        Route::prefix('/Templates')->group(function () {
+            Route::get('/All/{entityId}', TemplateAllController::class);
+            Route::get('/Find/{templateId?}', TemplateFindController::class);
+            Route::post('/Store', TemplateStoreController::class);
+            Route::post('/Update/{templateId}', TemplateUpdateController::class);
+            Route::put('/Setting/{templateId}', TemplateSettingController::class);
+            Route::get('/Preview/{templateId}', TemplatePreviewController::class);
+            Route::delete('/Delete/{templateId}', TemplateDeleteController::class);
+            Route::patch('/Restore/{templateId}', TemplateRestoreController::class);
+        });
+
+        Route::prefix('/Headquarters')->group(function () {
+            Route::get('/All/{entityId}', HeadquarterAllController::class);
+            Route::get('/Find/{headquarterId}', HeadquarterFindController::class);
+            Route::post('/Store', HeadquarterStoreController::class);
+            Route::put('/Update/{headquarterId}', HeadquarterUpdateController::class);
+            Route::delete('/Delete/{headquarterId}', HeadquarterDeleteController::class);
+            Route::patch('/Restore/{headquarterId}', HeadquarterRestoreController::class);
+        });
+
+        Route::prefix('/Allies')->group(function () {
+            Route::get('/All/{entityId}', AllyAllController::class);
+            Route::get('/Find/{allieId}', AllyFindController::class);
+            Route::post('/Store', AllyStoreController::class);
+            Route::put('/Update/{allieId}', AllyUpdateController::class);
+            Route::delete('/Delete/{allieId}', AllyDeleteController::class);
+            Route::patch('/Restore/{allieId}', AllyRestoreController::class);
+
+            Route::prefix('/Campaigns')->group(function () {
+                Route::get('/All/{allyId}', CampaignAllController::class);
+                Route::get('/Find/{campaignId}', CampaignFindController::class);
+                Route::post('/Store', CampaignStoreController::class);
+                Route::put('/Update/{campaignId}', CampaignUpdateController::class);
+                Route::delete('/Delete/{CampaignId}', CampaignDeleteController::class);
+                Route::patch('/Restore/{CampaignId}', CampaignRestoreController::class);
+            });
+        });
+
+        Route::prefix('/OrganizationalStructures')->group(function () {
+            Route::get('/All', OrganizationalStructureAllController::class);
+            Route::get('/Find/{organizationalStructureId}', OrganizationalStructureFindController::class);
+            Route::post('/Store', OrganizationalStructureStoreController::class);
+            Route::put('/Update/{organizationalStructureId}', OrganizationalStructureUpdateController::class);
+            Route::patch('/Approved/{organizationalStructureId}', OrganizationalStructureApprovedController::class);
+            Route::patch('/Rejected/{organizationalStructureId}', OrganizationalStructureRejectedController::class);
+            Route::patch('/Inactive/{organizationalStructureId}', OrganizationalStructureInactivedController::class);
+        });
+    });
+});
+
+Route::prefix('/Areas')->group(function () {
+    Route::get('/All', AreaAllController::class);
+    Route::get('/Find/{areaId}', AreaFindController::class);
+    Route::post('/Store', AreaStoreController::class);
+    Route::put('/Update/{areaId}', AreaUpdateController::class);
+    Route::delete('/Delete/{areaId}', AreaDeleteController::class);
+    Route::patch('/Restore/{areaId}', AreaRestoreController::class);
+});
+
+Route::prefix('/MaritalStatuses')->group(function () {
+    Route::get('/All', MaritalStatusAllController::class);
+    Route::get('/Find/{maritalStatusId}', MaritalStatusFindController::class);
+    Route::post('/Store', MaritalStatusStoreController::class);
+    Route::put('/Update/{maritalStatusId}', MaritalStatusUpdateController::class);
+    Route::delete('/Delete/{maritalStatusId}', MaritalStatusDeleteController::class);
+    Route::patch('/Restore/{maritalStatusId}', MaritalStatusRestoreController::class);
+});
+
+Route::prefix('/Relationships')->group(function () {
+    Route::get('/All', RelationshipAllController::class);
+    Route::get('/Find/{relationshipId}', RelationshipFindController::class);
+});
+
+Route::prefix('/Sizes')->group(function () {
+    Route::get('/All', SizeAllController::class);
+    Route::get('/Find/{sizeId}', SizeFindController::class);
+});
+
+Route::prefix('/SkillTypes')->group(function () {
+    Route::get('/All', SkillTypeAllController::class);
+    Route::get('/Find/{skillTypeId}', SkillTypeFindController::class);
+});
+
+Route::prefix('/Skills')->group(function () {
+    Route::get('/All', SkillAllController::class);
+    Route::get('/Find/{skillId}', SkillFindController::class);
+    Route::post('/Store', SkillStoreController::class);
+    Route::put('/Update/{skillId}', SkillUpdateController::class);
+    Route::delete('/Delete/{skillId}', SkillDeleteController::class);
+    Route::patch('/Restore/{skillId}', SkillRestoreController::class);
+});
+
+Route::prefix('/FormationStatuses')->group(function () {
+    Route::get('/All', FormationStatusAllController::class);
+    Route::get('/Find/{formationStatusId}', FormationStatusFindController::class);
+});
+
+Route::prefix('/AcademicLevels')->group(function () {
+    Route::get('/All', AcademicLevelAllController::class);
+    Route::get('/Find/{academicLevelId}', AcademicLevelFindController::class);
+    Route::post('/Store', AcademicLevelStoreController::class);
+    Route::put('/Update/{academicLevelId}', AcademicLevelUpdateController::class);
+    Route::delete('/Delete/{academicLevelId}', AcademicLevelDeleteController::class);
+    Route::patch('/Restore/{academicLevelId}', AcademicLevelRestoreController::class);
+});
+
+Route::prefix('/FileTypes')->group(function () {
+    Route::get('/All', FileTypeAllController::class);
+    Route::get('/Find/{fileTypeId}', FileTypeFindController::class);
+});
+
+Route::prefix('/FileSubtypes')->group(function () {
+    Route::get('/All', FileSubtypeAllController::class);
+    Route::get('/Find/{fileSubtypeId}', FileSubtypeFindController::class);
+});
+
+Route::prefix('/PersonTypes')->group(function () {
+    Route::get('/All', PersonTypeAllController::class);
+    Route::get('/Find/{personTypeId}', PersonTypeFindController::class);
+});
+
+Route::prefix('/DocumentTypes')->group(function () {
+    Route::get('/All', DocumentTypeAllController::class);
+    Route::get('/Find/{documentTypeId}', DocumentTypeFindController::class);
+    Route::post('/Store', DocumentTypeStoreController::class);
+    Route::put('/Update/{documentTypeId}', DocumentTypeUpdateController::class);
+    Route::put('/Setting/{documentTypeId}', DocumentTypeSettingController::class);
+    Route::delete('/Delete/{documentTypeId}', DocumentTypeDeleteController::class);
+    Route::patch('/Restore/{documentTypeId}', DocumentTypeRestoreController::class);
+});
+
+Route::prefix('/ContractTypes')->group(function () {
+    Route::get('/All', ContractTypeAllController::class);
+    Route::get('/Find/{contractTypeId}', ContractTypeFindController::class);
+    Route::post('/Store', ContractTypeStoreController::class);
+    Route::put('/Update/{contractTypeId}', ContractTypeUpdateController::class);
+    Route::delete('/Delete/{contractTypeId}', ContractTypeDeleteController::class);
+    Route::patch('/Restore/{contractTypeId}', ContractTypeRestoreController::class);
+});
+
+Route::prefix('/WorkArrangements')->group(function () {
+    Route::get('/All', WorkArrangementAllController::class);
+    Route::get('/Find/{workArrangementId}', WorkArrangementFindController::class);
+    Route::post('/Store', WorkArrangementStoreController::class);
+    Route::put('/Update/{workArrangementId}', WorkArrangementUpdateController::class);
+    Route::delete('/Delete/{workArrangementId}', WorkArrangementDeleteController::class);
+    Route::patch('/Restore/{workArrangementId}', WorkArrangementRestoreController::class);
+});
+
+Route::prefix('/WorkDays')->group(function () {
+    Route::get('/All', WorkDayAllController::class);
+    Route::get('/Find/{workDayId}', WorkDayFindController::class);
+    Route::post('/Store', WorkDayStoreController::class);
+    Route::put('/Update/{workDayId}', WorkDayUpdateController::class);
+    Route::delete('/Delete/{workDayId}', WorkDayDeleteController::class);
+    Route::patch('/Restore/{workDayId}', WorkDayRestoreController::class);
+});
+
+Route::prefix('/Benefits')->group(function () {
+    Route::get('/All', BenefitAllController::class);
+    Route::get('/Find/{benefitId}', BenefitFindController::class);
+    Route::post('/Store', BenefitStoreController::class);
+    Route::post('/Update/{benefitId}', BenefitUpdateController::class);
+    Route::delete('/Delete/{benefitId}', BenefitDeleteController::class);
+    Route::patch('/Restore/{benefitId}', BenefitRestoreController::class);
+});
+
+Route::prefix('/Banks')->group(function () {
+    Route::get('/All', BankAllController::class);
+    Route::get('/Find/{bankId}', BankFindController::class);
+    Route::post('/Store', BankStoreController::class);
+    Route::put('/Update/{bankId}', BankUpdateController::class);
+    Route::put('/Toggle/{bankId}', BankToggleController::class);
+    Route::delete('/Delete/{bankId}', BankDeleteController::class);
+    Route::patch('/Restore/{bankId}', BankRestoreController::class);
+});
+
+Route::prefix('/BankAccountTypes')->group(function () {
+    Route::get('/All', BankAccountTypeAllController::class);
+    Route::get('/Find/{bankAccountTypeId}', BankAccountTypeFindController::class);
+});
+
+Route::prefix('/Sexes')->group(function () {
+    Route::get('/All', SexAllController::class);
+    Route::get('/Find/{sexId}', SexFindController::class);
+});
+
+Route::prefix('/Genders')->group(function () {
+    Route::get('/All', GenderAllController::class);
+    Route::get('/Find/{genderId}', GenderFindController::class);
+});
+
+Route::prefix('/BloodTypes')->group(function () {
+    Route::get('/All', BloodTypeAllController::class);
+    Route::get('/Find/{bloodTypeId}', BloodTypeFindController::class);
+});
+
+Route::prefix('/ProfileCategories')->group(function () {
+    Route::get('/All', ProfileCategoryAllController::class);
+    Route::get('/Find/{profileCategoryId}', ProfileCategoryFindController::class);
+});
+
+Route::prefix('/Languages')->group(function () {
+    Route::get('/All', LanguageAllController::class);
+    Route::get('/Find/{languageId}', LanguageFindController::class);
+});
+
+Route::prefix('/LanguageLevels')->group(function () {
+    Route::get('/All', LanguageLevelAllController::class);
+    Route::get('/Find/{languageLevelId}', LanguageLevelFindController::class);
+});
+
+Route::prefix('/RiskManagers')->group(function () {
+    Route::get('/All', RiskManagerAllController::class);
+    Route::get('/Find/{riskManagerId}', RiskManagerFindController::class);
+    Route::post('/Store', RiskManagerStoreController::class);
+    Route::put('/Update/{riskManagerId}', RiskManagerUpdateController::class);
+    Route::put('/Toggle/{riskManagerId}', RiskManagerToggleController::class);
+    Route::delete('/Delete/{riskManagerId}', RiskManagerDeleteController::class);
+    Route::patch('/Restore/{riskManagerId}', RiskManagerRestoreController::class);
+});
+
+Route::prefix('/HealthEntityTypes')->group(function () {
+    Route::get('/All', HealthEntityTypeAllController::class);
+    Route::get('/Find/{healthEntityTypeId}', HealthEntityTypeFindController::class);
+});
+
+Route::prefix('/HealthEntities')->group(function () {
+    Route::get('/All', HealthEntityAllController::class);
+    Route::get('/Find/{healthEntityId}', HealthEntityFindController::class);
+    Route::post('/Store', HealthEntityStoreController::class);
+    Route::put('/Update/{healthEntityId}', HealthEntityUpdateController::class);
+    Route::put('/Toggle/{healthEntityId}', HealthEntityToggleController::class);
+    Route::delete('/Delete/{healthEntityId}', HealthEntityDeleteController::class);
+    Route::patch('/Restore/{healthEntityId}', HealthEntityRestoreController::class);
+});
+
+Route::prefix('/CompensationFunds')->group(function () {
+    Route::get('/All', CompensationFundAllController::class);
+    Route::get('/Find/{compensationFundId}', CompensationFundFindController::class);
+    Route::post('/Store', CompensationFundStoreController::class);
+    Route::put('/Update/{compensationFundId}', CompensationFundUpdateController::class);
+    Route::put('/Toggle/{compensationFundId}', CompensationFundToggleController::class);
+    Route::delete('/Delete/{compensationFundId}', CompensationFundDeleteController::class);
+    Route::patch('/Restore/{compensationFundId}', CompensationFundRestoreController::class);
+});
+
+Route::prefix('/PensionFunds')->group(function () {
+    Route::get('/All', PensionFundAllController::class);
+    Route::get('/Find/{pensionFundId}', PensionFundFindController::class);
+    Route::post('/Store', PensionFundStoreController::class);
+    Route::put('/Update/{pensionFundId}', PensionFundUpdateController::class);
+    Route::put('/Toggle/{pensionFundId}', PensionFundToggleController::class);
+    Route::delete('/Delete/{pensionFundId}', PensionFundDeleteController::class);
+    Route::patch('/Restore/{pensionFundId}', PensionFundRestoreController::class);
+});
+
+Route::prefix('/FiscalDocuments')->group(function () {
+    Route::get('/All', FiscalDocumentAllController::class);
+    Route::get('/Find/{fiscalDocumentId}', FiscalDocumentFindController::class);
+    Route::post('/Store', FiscalDocumentStoreController::class);
+    Route::put('/Update/{fiscalDocumentId}', FiscalDocumentUpdateController::class);
+    Route::put('/Toggle/{fiscalDocumentId}', FiscalDocumentToggleController::class);
+    Route::delete('/Delete/{fiscalDocumentId}', FiscalDocumentDeleteController::class);
+    Route::patch('/Restore/{fiscalDocumentId}', FiscalDocumentRestoreController::class);
+});
+
+Route::prefix('/EntityTypes')->group(function () {
+    Route::get('/All', EntityTypeAllController::class);
+    Route::get('/Find/{entityTypeId}', EntityTypeFindController::class);
+    Route::post('/Store', EntityTypeStoreController::class);
+    Route::put('/Update/{entityTypeId}', EntityTypeUpdateController::class);
+    Route::put('/Toggle/{entityTypeId}', EntityTypeToggleController::class);
+    Route::delete('/Delete/{entityTypeId}', EntityTypeDeleteController::class);
+    Route::patch('/Restore/{entityTypeId}', EntityTypeRestoreController::class);
+});
+
+Route::prefix('/EpidemiologicalPrograms')->group(function () {
+    Route::get('/All', EpidemiologicalProgramAllController::class);
+    Route::get('/Find/{epidemiologicalProgramId}', EpidemiologicalProgramFindController::class);
+    Route::post('/Store', EpidemiologicalProgramStoreController::class);
+    Route::put('/Update/{epidemiologicalProgramId}', EpidemiologicalProgramUpdateController::class);
+    Route::delete('/Delete/{epidemiologicalProgramId}', EpidemiologicalProgramDeleteController::class);
+    Route::patch('/Restore/{epidemiologicalProgramId}', EpidemiologicalProgramRestoreController::class);
+});
+
+Route::prefix('/ServiceTypes')->group(function () {
+    Route::get('/All', ServiceTypeAllController::class);
+    Route::get('/Find/{serviceTypeId}', ServiceTypeFindController::class);
+});
+
+Route::prefix('/ServiceProviders')->group(function () {
+    Route::get('/All', ServiceProviderAllController::class);
+    Route::get('/Find/{serviceProviderId}', ServiceProviderFindController::class);
+    Route::post('/Store', ServiceProviderStoreController::class);
+    Route::put('/Update/{serviceProviderId}', ServiceProviderUpdateController::class);
+    Route::put('/Toggle/{serviceProviderId}', ServiceProviderToggleController::class);
+    Route::delete('/Delete/{serviceProviderId}', ServiceProviderDeleteController::class);
+    Route::patch('/Restore/{serviceProviderId}', ServiceProviderRestoreController::class);
+});
+
+Route::prefix('/Locations')->group(function () {
+    Route::prefix('/Regions')->group(function () {
+        Route::get('/All', RegionAllController::class);
+        Route::get('/Find/{regionId?}', RegionFindController::class);
+    });
+
+    Route::prefix('/Subregions')->group(function () {
+        Route::get('/All', SubregionAllController::class);
+        Route::get('/Find/{subregionId?}', SubregionFindController::class);
+    });
+
+    Route::prefix('/Countries')->group(function () {
+        Route::get('/All', CountryAllController::class);
+        Route::get('/Find/{countryId?}', CountryFindController::class);
+        Route::put('/Setting/{countryId}', CountrySettingController::class);
+    });
+
+    Route::prefix('/Departaments')->group(function () {
+        Route::get('/All', DepartamentAllController::class);
+        Route::get('/Find/{departamentId?}', DepartamentFindController::class);
+    });
+
+    Route::prefix('/Cities')->group(function () {
+        Route::get('/All', CityAllController::class);
+        Route::get('/Find/{cityId?}', CityFindController::class);
+    });
+});
+
+Route::prefix('/Positions')->group(function () {
+    Route::get('/All', PositionAllController::class);
+    Route::get('/Find/{positionId}', PositionFindController::class);
+    Route::post('/Store', PositionStoreController::class);
+    Route::put('/Update/{positionId}', PositionUpdateController::class);
+    Route::put('/Toggle/{positionId}', PositionToggleController::class);
+    Route::delete('/Delete/{positionId}', PositionDeleteController::class);
+    Route::patch('/Restore/{positionId}', PositionRestoreController::class);
+
+    Route::prefix('/AcademicRequirements')->group(function () {
+        Route::get('/All/{positionId}', AcademicRequirementAllController::class);
+        Route::get('/Find/{academicRequirementId}', AcademicRequirementFindController::class);
+        Route::post('/Store', AcademicRequirementStoreController::class);
+        Route::put('/Update/{academicRequirementId}', AcademicRequirementUpdateController::class);
+        Route::delete('/Delete/{academicRequirementId}', AcademicRequirementDeleteController::class);
+    });
+
+    Route::prefix('/RequiredSkills')->group(function () {
+        Route::get('/All/{positionId}', RequiredSkillAllController::class);
+        Route::get('/Find/{requiredSkillId}', RequiredSkillFindController::class);
+        Route::post('/Store', RequiredSkillStoreController::class);
+        Route::put('/Update/{requiredSkillId}', RequiredSkillUpdateController::class);
+        Route::delete('/Delete/{requiredSkillId}', RequiredSkillDeleteController::class);
+    });
+
+    Route::prefix('/RequiredExperiences')->group(function () {
+        Route::get('/All/{positionId}', RequiredExperienceAllController::class);
+        Route::get('/Find/{requiredExperienceId}', RequiredExperienceFindController::class);
+        Route::post('/Store', RequiredExperienceStoreController::class);
+        Route::put('/Update/{requiredExperienceId}', RequiredExperienceUpdateController::class);
+        Route::delete('/Delete/{requiredExperienceId}', RequiredExperienceDeleteController::class);
+    });
+
+    Route::prefix('/Responsabilities')->group(function () {
+        Route::get('/All/{positionId}', ResponsabilityAllController::class);
+        Route::get('/Find/{requiredExperienceId}', ResponsabilityFindController::class);
+        Route::post('/Store', ResponsabilityStoreController::class);
+        Route::put('/Update/{requiredExperienceId}', ResponsabilityUpdateController::class);
+        Route::delete('/Delete/{requiredExperienceId}', ResponsabilityDeleteController::class);
+    });
+});
+
+Route::prefix('/HiringReasons')->group(function () {
+    Route::get('/All', HiringReasonAllController::class);
+    Route::get('/Find/{hiringReasonId}', HiringReasonFindController::class);
+});
+
+Route::prefix('/PaymentPeriods')->group(function () {
+    Route::get('/All', PaymentPeriodAllController::class);
+    Route::get('/Find/{paymentPeriodId}', PaymentPeriodFindController::class);
+});
+
+Route::prefix('/Vacants')->group(function () {
+    Route::get('/All', VacantAllController::class);
+    Route::get('/Find/{vacantId?}', VacantFindController::class);
+    Route::post('/Store', VacantStoreController::class);
+    Route::put('/Update/{vacantId}', VacantUpdateController::class);
+    Route::patch('/Review/{vacantId}', VacantReviewController::class);
+    Route::patch('/Approved/{vacantId}', VacantApprovedController::class);
+    Route::patch('/Rejected/{vacantId}', VacantRejectedController::class);
+    Route::patch('/Published/{vacantId}', VacantPublishedController::class);
+    Route::patch('/Finished/{vacantId}', VacantFinishedController::class);
+
+    Route::prefix('/Applications')->group(function () {
+        Route::get('/All/{vacantId?}', ApplicationAllController::class);
+        Route::get('/Find/{applicationId?}', ApplicationFindController::class);
+        Route::post('/Store', ApplicationStoreController::class);
+        Route::patch('/Withdrawned/{applicationId}', ApplicationWithdrawnedController::class);
+        Route::patch('/Review/{applicationId}', ApplicationReviewController::class);
+        Route::patch('/Test/{applicationId}', ApplicationTestController::class);
+        Route::patch('/Finalist/{applicationId}', ApplicationFinalistController::class);
+        Route::patch('/Hiring/{applicationId}', ApplicationHiringController::class);
+        Route::patch('/Rejected/{applicationId}', ApplicationRejectedController::class);
+        Route::prefix('/Notify')->group(function () {
+            Route::post('/Token/{applicationId}', ApplicationNotifyTokenController::class);
+        });
+        Route::prefix('/Verify')->group(function () {
+            Route::put('/Token/{applicationId}', ApplicationVerifyTokenController::class);
+        });
+
+        Route::prefix('/InterviewVideos')->group(function () {
+            Route::get('/Find/{interviewVideoId?}', InterviewVideoFindController::class);
+            Route::post('/Store', InterviewVideoStoreController::class);
+            Route::put('/Update/{interviewVideoId}', InterviewVideoUpdateController::class);
+        });
+
+        Route::prefix('/CriminalRecords')->group(function () {
+            Route::get('/Find/{criminalRecordId?}', CriminalRecordFindController::class);
+            Route::post('/Store', CriminalRecordStoreController::class);
+            Route::put('/Update/{criminalRecordId}', CriminalRecordUpdateController::class);
+        });
+
+        Route::prefix('/InterviewInitials')->group(function () {
+            Route::get('/All', InterviewInitialAllController::class);
+            Route::get('/Find/{interviewInitialId?}', InterviewInitialFindController::class);
+            Route::post('/Store', InterviewInitialStoreController::class);
+            Route::put('/Update/{interviewInitialId}', InterviewInitialUpdateController::class);
+            Route::put('/Reviewer/{interviewInitialId}', InterviewInitialReviewerController::class);
+            Route::put('/Leader/{interviewInitialId}', InterviewInitialLeaderController::class);
+        });
+
+        Route::prefix('/InterviewPsychotechnicals')->group(function () {
+            Route::get('/All', InterviewPsychotechnicalAllController::class);
+            Route::get('/Find/{interviewPsychotechnicalId?}', InterviewPsychotechnicalFindController::class);
+            Route::post('/Store', InterviewPsychotechnicalStoreController::class);
+            Route::put('/Update/{interviewPsychotechnicalId}', InterviewPsychotechnicalUpdateController::class);
+            Route::put('/Psychologist/{interviewPsychotechnicalId}', InterviewPsychotechnicalPsychologistController::class);
+        });
+
+        Route::prefix('/TestTechnicals')->group(function () {
+            Route::get('/All', TestTechnicalAllController::class);
+            Route::get('/Find/{testTechnicalId?}', TestTechnicalFindController::class);
+            Route::post('/Store', TestTechnicalStoreController::class);
+            Route::put('/Update/{testTechnicalId}', TestTechnicalUpdateController::class);
+            Route::put('/Leader/{testTechnicalId}', TestTechnicalLeaderController::class);
+            Route::put('/Start/{testTechnicalId}', TestTechnicalStartController::class);
+            Route::put('/Finish/{testTechnicalId}', TestTechnicalFinishController::class);
+        });
+
+        Route::prefix('/TestPsychotechnicals')->group(function () {
+            Route::get('/All', TestPsychotechnicalAllController::class);
+            Route::get('/Find/{testPsychotechnicalId?}', TestPsychotechnicalFindController::class);
+            Route::post('/Store', TestPsychotechnicalStoreController::class);
+            Route::put('/Update/{testPsychotechnicalId}', TestPsychotechnicalUpdateController::class);
+            Route::put('/Psychologist/{testPsychotechnicalId}', TestPsychotechnicalPsychologistController::class);
+            Route::put('/Start/{testPsychotechnicalId}', TestPsychotechnicalStartController::class);
+            Route::put('/Finish/{testPsychotechnicalId}', TestPsychotechnicalFinishController::class);
+        });
+
+        Route::prefix('/ExamMedicals')->group(function () {
+            Route::get('/All', ExamMedicalAllController::class);
+            Route::get('/Find/{examMedicalId?}', ExamMedicalFindController::class);
+            Route::post('/Store', ExamMedicalStoreController::class);
+            Route::put('/Update/{examMedicalId}', ExamMedicalUpdateController::class);
+            Route::post('/Reviewer/{examMedicalId}', ExamMedicalReviewerController::class);
+        });
+
+        Route::prefix('/ExamPolygraphs')->group(function () {
+            Route::get('/All', ExamPolygraphAllController::class);
+            Route::get('/Find/{examPolygraphId?}', ExamPolygraphFindController::class);
+            Route::post('/Store', ExamPolygraphStoreController::class);
+            Route::put('/Update/{examPolygraphId}', ExamPolygraphUpdateController::class);
+            Route::post('/Reviewer/{examPolygraphId}', ExamPolygraphReviewerController::class);
+        });
+    });
+});
+
+Route::prefix('/FormTypes')->group(function () {
+    Route::get('/All', FormTypeAllController::class);
+    Route::get('/Find/{formTypeId}', FormTypeFindController::class);
+});
+
+Route::prefix('/Forms')->group(function () {
+    Route::get('/All', FormAllController::class);
+    Route::get('/Find/{formId?}', FormFindController::class);
+    Route::post('/Store', FormStoreController::class);
+    Route::put('/Update/{formId}', FormUpdateController::class);
+    Route::delete('/Delete/{formId}', FormDeleteController::class);
+    Route::patch('/Restore/{formId}', FormRestoreController::class);
+});
+
+Route::prefix('/Surveys')->group(function () {
+    Route::get('/All', SurveyAllController::class);
+    Route::get('/Find/{surveyId}', SurveyFindController::class);
+    Route::post('/Store', SurveyStoreController::class);
+});
+
+Route::prefix('/HealthEntityAffiliations')->group(function () {
+    Route::get('/Find/{healthEntityAffiliationId?}', HealthEntityAffiliationFindController::class);
+    Route::post('/Store', HealthEntityAffiliationStoreController::class);
+    Route::post('/Update/{healthEntityAffiliationId}', HealthEntityAffiliationUpdateController::class);
+    Route::patch('/Refreshed/{healthEntityAffiliationId}', HealthEntityAffiliationRefreshedController::class);
+    Route::patch('/Approved/{healthEntityAffiliationId}', HealthEntityAffiliationApprovedController::class);
+});
+
+Route::prefix('/PensionFundAffiliations')->group(function () {
+    Route::get('/Find/{pensionFundAffiliationId?}', PensionFundAffiliationFindController::class);
+    Route::post('/Store', PensionFundAffiliationStoreController::class);
+    Route::post('/Update/{pensionFundAffiliationId}', PensionFundAffiliationUpdateController::class);
+    Route::patch('/Refreshed/{pensionFundAffiliationId}', PensionFundAffiliationRefreshedController::class);
+    Route::patch('/Approved/{pensionFundAffiliationId}', PensionFundAffiliationApprovedController::class);
+});
+
+Route::prefix('/RiskManagerAffiliations')->group(function () {
+    Route::get('/Find/{riskManagerAffiliationId?}', RiskManagerAffiliationFindController::class);
+    Route::post('/Store', RiskManagerAffiliationStoreController::class);
+    Route::post('/Update/{riskManagerAffiliationId}', RiskManagerAffiliationUpdateController::class);
+    Route::patch('/Refreshed/{riskManagerAffiliationId}', RiskManagerAffiliationRefreshedController::class);
+    Route::patch('/Approved/{riskManagerAffiliationId}', RiskManagerAffiliationApprovedController::class);
+});
+
+Route::prefix('/BankCertificates')->group(function () {
+    Route::get('/Find/{bankCertificateId?}', BankCertificateFindController::class);
+    Route::post('/Store', BankCertificateStoreController::class);
+    Route::post('/Update/{bankCertificateId}', BankCertificateUpdateController::class);
+    Route::patch('/Refreshed/{bankCertificateId}', BankCertificateRefreshedController::class);
+    Route::patch('/Approved/{bankCertificateId}', BankCertificateApprovedController::class);
+});
+
+Route::prefix('/CompensationFundAffiliations')->group(function () {
+    Route::get('/Find/{compensationFundAffiliationId?}', CompensationFundAffiliationFindController::class);
+    Route::post('/Store', CompensationFundAffiliationStoreController::class);
+    Route::post('/Update/{compensationFundAffiliationId}', CompensationFundAffiliationUpdateController::class);
+    Route::patch('/Refreshed/{compensationFundAffiliationId}', CompensationFundAffiliationRefreshedController::class);
+    Route::patch('/Approved/{compensationFundAffiliationId}', CompensationFundAffiliationApprovedController::class);
+});
+
+Route::prefix('/FiscalDocumentCertificates')->group(function () {
+    Route::get('/Find/{fiscalDocumentCertificateId?}', FiscalDocumentCertificateFindController::class);
+    Route::post('/Store', FiscalDocumentCertificateStoreController::class);
+    Route::post('/Update/{fiscalDocumentCertificateId}', FiscalDocumentCertificateUpdateController::class);
+    Route::patch('/Refreshed/{fiscalDocumentCertificateId}', FiscalDocumentCertificateRefreshedController::class);
+    Route::patch('/Approved/{fiscalDocumentCertificateId}', FiscalDocumentCertificateApprovedController::class);
+});
+
+Route::prefix('/Contracts')->group(function () {
+    Route::get('/All', ContractAllController::class);
+    Route::get('/Find/{contractId?}', ContractFindController::class);
+    Route::post('/Store', ContractStoreController::class);
+    Route::put('/Update/{contractId}', ContractUpdateController::class);
+    Route::get('/Preview/{contractId}', ContractPreviewController::class);
+    Route::patch('/Withdrawned/{contractId}', ContractWithdrawnedController::class);
+    Route::patch('/Refreshed/{contractId}', ContractRefreshedController::class);
+    Route::patch('/Approved/{contractId}', ContractApprovedController::class);
+    Route::patch('/Rejected/{contractId}', ContractRejectedController::class);
+    Route::prefix('/Signed')->group(function () {
+        Route::post('/Person/{contractId}', ContractSignedPersonController::class);
+        Route::post('/LegalRepresentative/{contractId}', ContractSignedLegalRepresentativeController::class);
+    });
+    Route::prefix('/Notify')->group(function () {
+        Route::post('/Token/{contractId?}', ContractNotifyTokenController::class);
+    });
+    Route::prefix('/Verify')->group(function () {
+        Route::put('/Token/{contractId}', ContractVerifyTokenController::class);
+    });
+
+    Route::prefix('/Policies')->group(function () {
+        Route::get('/All/{contractId}', PolicyAllController::class);
+        Route::get('/Find/{policyId?}', PolicyFindController::class);
+        Route::post('/Store', PolicyStoreController::class);
+        Route::put('/Update/{policyId}', PolicyUpdateController::class);
+        Route::patch('/Actived/{policyId}', PolicyActivedController::class);
+        Route::patch('/Expired/{policyId}', PolicyExpiredController::class);
+        Route::patch('/Canceled/{policyId}', PolicyCanceledController::class);
+    });
+
+    Route::prefix('/Addendums')->group(function () {
+        Route::get('/All/{contractId}', AddendumAllController::class);
+        Route::get('/Find/{addendumId?}', AddendumFindController::class);
+        Route::post('/Store', AddendumStoreController::class);
+        Route::put('/Update/{addendumId}', AddendumUpdateController::class);
+        Route::patch('/Withdrawned/{addendumId}', AddendumWithdrawnedController::class);
+        Route::patch('/Refreshed/{addendumId}', AddendumRefreshedController::class);
+        Route::patch('/Approved/{addendumId}', AddendumApprovedController::class);
+        Route::patch('/Rejected/{addendumId}', AddendumRejectedController::class);
+        Route::prefix('/Signed')->group(function () {
+            Route::post('/Person/{addendumId}', AddendumSignedPersonController::class);
+            Route::post('/LegalRepresentative/{addendumId}', AddendumSignedLegalRepresentativeController::class);
+        });
+        Route::prefix('/Notify')->group(function () {
+            Route::post('/Token/{addendumId?}', AddendumNotifyTokenController::class);
+        });
+        Route::prefix('/Verify')->group(function () {
+            Route::put('/Token/{addendumId}', AddendumVerifyTokenController::class);
+        });
+    });
+});
+
+Route::prefix('/PolicyTypes')->group(function () {
+    Route::get('/All', PolicyTypeAllController::class);
+    Route::get('/Find/{policyTypeId}', PolicyTypeFindController::class);
+    Route::post('/Store', PolicyTypeStoreController::class);
+    Route::put('/Update/{policyTypeId}', PolicyTypeUpdateController::class);
+    Route::delete('/Delete/{policyTypeId}', PolicyTypeDeleteController::class);
+    Route::patch('/Restore/{policyTypeId}', PolicyTypeRestoreController::class);
+});
+
+Route::prefix('/AddendumTypes')->group(function () {
+    Route::get('/All', AddendumTypeAllController::class);
+    Route::get('/Find/{addendumTypeId}', AddendumTypeFindController::class);
+    Route::post('/Store', AddendumTypeStoreController::class);
+    Route::put('/Update/{addendumTypeId}', AddendumTypeUpdateController::class);
+    Route::put('/Setting/{addendumTypeId}', AddendumTypeSettingController::class);
+    Route::delete('/Delete/{addendumTypeId}', AddendumTypeDeleteController::class);
+    Route::patch('/Restore/{addendumTypeId}', AddendumTypeRestoreController::class);
+});
+
+Route::prefix('/Authorization')->group(function () {
+    Route::prefix('/Roles')->group(function () {
+        Route::get('/All', RoleAllController::class);
+        Route::get('/Find/{roleId?}', RoleFindController::class);
+        Route::post('/Store', RoleStoreController::class);
+        Route::put('/Update/{roleId}', RoleUpdateController::class);
+        Route::put('/Toggle/{roleId}', RoleToggleController::class);
+    });
+
+    Route::prefix('/Permissions')->group(function () {
+        Route::get('/All', PermissionAllController::class);
+        Route::get('/Find/{permissionId?}', PermissionFindController::class);
+        Route::post('/Store', PermissionStoreController::class);
+        Route::put('/Update/{permissionId}', PermissionUpdateController::class);
+    });
+});
+
+Route::prefix('/Navigations')->group(function () {
+    Route::prefix('/Modules')->group(function () {
+        Route::get('/All', ModuleAllController::class);
+        Route::get('/Find/{moduleId}', ModuleFindController::class);
+        Route::post('/Store', ModuleStoreController::class);
+        Route::put('/Update/{moduleId}', ModuleUpdateController::class);
+        Route::delete('/Delete/{moduleId}', ModuleDeleteController::class);
+        Route::patch('/Restore/{moduleId}', ModuleRestoreController::class);
+
+        Route::prefix('/Submodules')->group(function () {
+            Route::get('/All/{moduleId}', SubmoduleAllController::class);
+            Route::get('/Find/{submoduleId}', SubmoduleFindController::class);
+            Route::post('/Store', SubmoduleStoreController::class);
+            Route::put('/Update/{submoduleId}', SubmoduleUpdateController::class);
+            Route::delete('/Delete/{submoduleId}', SubmoduleDeleteController::class);
+            Route::patch('/Restore/{submoduleId}', SubmoduleRestoreController::class);
+        });
+    });
+});
+
+Route::prefix('/NotificationPlatforms')->group(function () {
+    Route::get('/All', NotificationPlatformAllController::class);
+    Route::get('/Find/{notificationPlatformId}', NotificationPlatformFindController::class);
+});
+
+Route::prefix('/NotificationChannels')->group(function () {
+    Route::get('/All', NotificationChannelAllController::class);
+    Route::get('/Find/{notificationChannelId}', NotificationChannelFindController::class);
+    Route::put('/Setting/{notificationChannelId}', NotificationChannelSettingController::class);
+});
+
+Route::prefix('/NotificationTypes')->group(function () {
+    Route::get('/All', NotificationTypeAllController::class);
+    Route::get('/Find/{notificationTypeId}', NotificationTypeFindController::class);
+    Route::put('/Setting/{notificationTypeId}', NotificationTypeSettingController::class);
+});
+
+Route::prefix('/Employees')->group(function () {
+    Route::get('/All', EmployeeAllController::class);
+    Route::get('/Find/{employeeId?}', EmployeeFindController::class);
+    Route::put('/Setting/{employeeId}', EmployeeSettingController::class);
+});
+
+Route::prefix('/AbsenceTypes')->group(function () {
+    Route::get('/All', AbsenceTypeAllController::class);
+    Route::get('/Find/{absenceTypeId}', AbsenceTypeFindController::class);
+    Route::post('/Store', AbsenceTypeStoreController::class);
+    Route::put('/Update/{absenceTypeId}', AbsenceTypeUpdateController::class);
+    Route::put('/Toggle/{absenceTypeId}', AbsenceTypeToggleController::class);
+    Route::put('/Setting/{absenceTypeId}', AbsenceTypeSettingController::class);
+    Route::delete('/Delete/{absenceTypeId}', AbsenceTypeDeleteController::class);
+    Route::patch('/Restore/{absenceTypeId}', AbsenceTypeRestoreController::class);
+});
+
+Route::prefix('/VacationTypes')->group(function () {
+    Route::get('/All', VacationTypeAllController::class);
+    Route::get('/Find/{vacationTypeId}', VacationTypeFindController::class);
+    Route::post('/Store', VacationTypeStoreController::class);
+    Route::put('/Update/{vacationTypeId}', VacationTypeUpdateController::class);
+    Route::put('/Toggle/{vacationTypeId}', VacationTypeToggleController::class);
+    Route::put('/Setting/{vacationTypeId}', VacationTypeSettingController::class);
+    Route::delete('/Delete/{vacationTypeId}', VacationTypeDeleteController::class);
+    Route::patch('/Restore/{vacationTypeId}', VacationTypeRestoreController::class);
+});
+
+Route::prefix('/SeveranceTypes')->group(function () {
+    Route::get('/All', SeveranceTypeAllController::class);
+    Route::get('/Find/{severanceTypeId}', SeveranceTypeFindController::class);
+    Route::post('/Store', SeveranceTypeStoreController::class);
+    Route::put('/Update/{severanceTypeId}', SeveranceTypeUpdateController::class);
+    Route::put('/Toggle/{severanceTypeId}', SeveranceTypeToggleController::class);
+    Route::put('/Setting/{severanceTypeId}', SeveranceTypeSettingController::class);
+    Route::delete('/Delete/{severanceTypeId}', SeveranceTypeDeleteController::class);
+    Route::patch('/Restore/{severanceTypeId}', SeveranceTypeRestoreController::class);
+});
+
+Route::prefix('/DisabilityTypes')->group(function () {
+    Route::get('/All', DisabilityTypeAllController::class);
+    Route::get('/Find/{disabilityTypeId}', DisabilityTypeFindController::class);
+    Route::post('/Store', DisabilityTypeStoreController::class);
+    Route::put('/Update/{disabilityTypeId}', DisabilityTypeUpdateController::class);
+    Route::put('/Toggle/{disabilityTypeId}', DisabilityTypeToggleController::class);
+    Route::put('/Setting/{disabilityTypeId}', DisabilityTypeSettingController::class);
+    Route::delete('/Delete/{disabilityTypeId}', DisabilityTypeDeleteController::class);
+    Route::patch('/Restore/{disabilityTypeId}', DisabilityTypeRestoreController::class);
+});
+
+Route::prefix('/LicenseTypes')->group(function () {
+    Route::get('/All', LicenseTypeAllController::class);
+    Route::get('/Find/{licenseTypeId}', LicenseTypeFindController::class);
+    Route::post('/Store', LicenseTypeStoreController::class);
+    Route::put('/Update/{licenseTypeId}', LicenseTypeUpdateController::class);
+    Route::put('/Toggle/{licenseTypeId}', LicenseTypeToggleController::class);
+    Route::put('/Setting/{licenseTypeId}', LicenseTypeSettingController::class);
+    Route::delete('/Delete/{licenseTypeId}', LicenseTypeDeleteController::class);
+    Route::patch('/Restore/{licenseTypeId}', LicenseTypeRestoreController::class);
+});
+
+Route::prefix('/CertificateTypes')->group(function () {
+    Route::get('/All', CertificateTypeAllController::class);
+    Route::get('/Find/{certificateTypeId}', CertificateTypeFindController::class);
+});
+
+Route::prefix('/ResignationTypes')->group(function () {
+    Route::get('/All', ResignationTypeAllController::class);
+    Route::get('/Find/{resignationTypeId}', ResignationTypeFindController::class);
+    Route::post('/Store', ResignationTypeStoreController::class);
+    Route::put('/Update/{resignationTypeId}', ResignationTypeUpdateController::class);
+    Route::put('/Toggle/{resignationTypeId}', ResignationTypeToggleController::class);
+    Route::put('/Setting/{resignationTypeId}', ResignationTypeSettingController::class);
+    Route::delete('/Delete/{resignationTypeId}', ResignationTypeDeleteController::class);
+    Route::patch('/Restore/{resignationTypeId}', ResignationTypeRestoreController::class);
+});
+
+Route::prefix('/TerminationTypes')->group(function () {
+    Route::get('/All', TerminationTypeAllController::class);
+    Route::get('/Find/{terminationTypeId}', TerminationTypeFindController::class);
+    Route::post('/Store', TerminationTypeStoreController::class);
+    Route::put('/Update/{terminationTypeId}', TerminationTypeUpdateController::class);
+    Route::put('/Toggle/{terminationTypeId}', TerminationTypeToggleController::class);
+    Route::put('/Setting/{terminationTypeId}', TerminationTypeSettingController::class);
+    Route::delete('/Delete/{terminationTypeId}', TerminationTypeDeleteController::class);
+    Route::patch('/Restore/{terminationTypeId}', TerminationTypeRestoreController::class);
+
+    Route::prefix('/Reasons')->group(function () {
+        Route::get('/All/{terminationTypeId}', ReasonAllController::class);
+        Route::get('/Find/{reasonId}', ReasonFindController::class);
+        Route::post('/Store', ReasonStoreController::class);
+        Route::put('/Update/{reasonId}', ReasonUpdateController::class);
+        Route::delete('/Delete/{reasonId}', ReasonDeleteController::class);
+        Route::patch('/Restore/{reasonId}', ReasonRestoreController::class);
+    });
+});
+
+Route::prefix('/CIEChapters')->group(function () {
+    Route::get('/All', CIEChapterAllController::class);
+    Route::get('/Find/{cieChapterId}', CIEChapterFindController::class);
+
+    Route::prefix('/CIEGroups')->group(function () {
+        Route::get('/All/{cieChapterId?}', CIEGroupAllController::class);
+        Route::get('/Find/{cieGroupId}', CIEGroupFindController::class);
+
+        Route::prefix('/CIESubgroups')->group(function () {
+            Route::get('/All/{cieGroupId?}', CIESubgroupAllController::class);
+            Route::get('/Find/{cieSubgroupId}', CIESubgroupFindController::class);
+
+            Route::prefix('/CIECodes')->group(function () {
+                Route::get('/All/{cieSubgroupId?}', CIECodeAllController::class);
+                Route::get('/Find/{cieCodeId}', CIECodeFindController::class);
+            });
+        });
+    });
+});
+
+Route::prefix('/Absences')->group(function () {
+    Route::get('/All', AbsenceAllController::class);
+    Route::get('/Find/{absenceId}', AbsenceFindController::class);
+    Route::post('/Store', AbsenceStoreController::class);
+    Route::post('/Update/{absenceId}', AbsenceUpdateController::class);
+    Route::patch('/Approved/{absenceId}', AbsenceApprovedController::class);
+    Route::patch('/Rejected/{absenceId}', AbsenceRejectedController::class);
+});
+
+Route::prefix('/Vacations')->group(function () {
+    Route::get('/All', VacationAllController::class);
+    Route::get('/Find/{vacationId}', VacationFindController::class);
+    Route::post('/Store', VacationStoreController::class);
+    Route::put('/Update/{vacationId}', VacationUpdateController::class);
+    Route::patch('/Approved/{vacationId}', VacationApprovedController::class);
+    Route::patch('/Rejected/{vacationId}', VacationRejectedController::class);
+    Route::get('/Availability', VacationAvailabilityController::class);
+});
+
+Route::prefix('/Severances')->group(function () {
+    Route::get('/All', SeveranceAllController::class);
+    Route::get('/Find/{severanceId}', SeveranceFindController::class);
+    Route::post('/Store', SeveranceStoreController::class);
+    Route::post('/Update/{severanceId}', SeveranceUpdateController::class);
+    Route::patch('/Approved/{severanceId}', SeveranceApprovedController::class);
+    Route::patch('/Rejected/{severanceId}', SeveranceRejectedController::class);
+});
+
+Route::prefix('/Disabilities')->group(function () {
+    Route::get('/All', DisabilityAllController::class);
+    Route::get('/Find/{disabilityId}', DisabilityFindController::class);
+    Route::post('/Store', DisabilityStoreController::class);
+    Route::put('/Update/{disabilityId}', DisabilityUpdateController::class);
+    Route::patch('/Approved/{disabilityId}', DisabilityApprovedController::class);
+    Route::patch('/Rejected/{disabilityId}', DisabilityRejectedController::class);
+});
+
+Route::prefix('/Licenses')->group(function () {
+    Route::get('/All', LicenseAllController::class);
+    Route::get('/Find/{licenseId}', LicenseFindController::class);
+    Route::post('/Store', LicenseStoreController::class);
+    Route::post('/Update/{licenseId}', LicenseUpdateController::class);
+    Route::patch('/Approved/{licenseId}', LicenseApprovedController::class);
+    Route::patch('/Rejected/{licenseId}', LicenseRejectedController::class);
+});
+
+/*Route::prefix('/Certificates')->group(function () {
+    Route::get('/All', CertificateAllController::class);
+    Route::get('/Find/{certificateId}', CertificateFindController::class);
+    Route::post('/Store', CertificateStoreController::class);
+    Route::put('/Update/{certificateId}', CertificateUpdateController::class);
+    Route::patch('/Approved/{certificateId}', CertificateApprovedController::class);
+    Route::patch('/Rejected/{certificateId}', CertificateRejectedController::class);
+});*/
+
+Route::prefix('/Resignations')->group(function () {
+    Route::get('/All', ResignationAllController::class);
+    Route::get('/Find/{resignationId}', ResignationFindController::class);
+    Route::post('/Store', ResignationStoreController::class);
+    Route::put('/Update/{resignationId}', ResignationUpdateController::class);
+    Route::patch('/Approved/{resignationId}', ResignationApprovedController::class);
+    Route::patch('/Rejected/{resignationId}', ResignationRejectedController::class);
+});
+
+Route::prefix('/Terminations')->group(function () {
+    Route::get('/All', TerminationAllController::class);
+    Route::get('/Find/{terminationId}', TerminationFindController::class);
+    Route::post('/Store', TerminationStoreController::class);
+    Route::post('/Update/{terminationId}', TerminationUpdateController::class);
+    Route::patch('/Approved/{terminationId}', TerminationApprovedController::class);
+    Route::patch('/Rejected/{terminationId}', TerminationRejectedController::class);
+});
+
+Route::prefix('/Inductions')->group(function () {
+    Route::get('/All', InductionAllController::class);
+    Route::get('/Find/{inductionId}', InductionFindController::class);
+    Route::post('/Store', InductionStoreController::class);
+    Route::put('/Update/{inductionId}', InductionUpdateController::class);
+    Route::delete('/Delete/{inductionId}', InductionDeleteController::class);
+    Route::patch('/Restore/{inductionId}', InductionRestoreController::class);
+
+    Route::prefix('/Steps')->group(function () {
+        Route::get('/All/{inductionId}', StepAllController::class);
+        Route::get('/Find/{stepId}', StepFindController::class);
+        Route::post('/Store', StepStoreController::class);
+        Route::post('/Update/{stepId}', StepUpdateController::class);
+        Route::delete('/Delete/{stepId}', StepDeleteController::class);
+        Route::patch('/Restore/{stepId}', StepRestoreController::class);
+    });
+});
+
+Route::prefix('/Progress')->group(function () {
+    Route::get('/Find/{progressId?}', ProgressFindController::class);
+    Route::post('/Start', ProgressStartController::class);
+    Route::put('/Finish/{progressId}', ProgressFinishController::class);
+});
+
+/*Route::prefix('/Reports')->group(function () {
+    Route::get('/Actives', ProgressFindController::class);
+    Route::get('/Retired', ProgressFindController::class);
+    Route::get('/Disabilities', ProgressFindController::class);
+    Route::get('/Rotation', ProgressFindController::class);
+    Route::get('/Absences', ProgressFindController::class);
+});*/
+
+//endowment

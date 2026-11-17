@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Person\Values;
+
+final class PersonDialingCountryId
+{
+    private $value;
+    
+    public function __construct(int $personDialingCountryId)
+    {
+        $this->value = $personDialingCountryId;
+    }
+
+    public function value(): int
+    {
+        return $this->value;
+    }
+}

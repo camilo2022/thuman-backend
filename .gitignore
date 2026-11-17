@@ -1,0 +1,51 @@
+# Ignorar todo dentro de storage
+/storage/*
+ 
+# Pero no ignorar la carpeta api-docs ni su contenido
+!storage/api-docs/
+!storage/api-docs/**
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/storage/*.key
+/storage/pail
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# Ignore specific storage folders
+/public/storage/Absence/*
+/public/storage/Application/*
+/public/storage/BankCertificate/*
+/public/storage/Benefit/*
+/public/storage/CompensationFundAffiliation/*
+/public/storage/Contract/*
+/public/storage/Disability/*
+/public/storage/Enterprise/*
+/public/storage/FiscalDocumentCertificate/*
+/public/storage/HealthEntityAffiliation/*
+/public/storage/Induction/*
+/public/storage/License/*
+/public/storage/PensionFundAffiliation/*
+/public/storage/Person/*
+/public/storage/Profile/*
+/public/storage/RiskManagerAffiliation/*
+/public/storage/Severance/*
+/public/storage/Termination/*
+
+# Archivos subidos (datos personales): nunca versionar
+/public/storage/*
+!/public/storage/.htaccess

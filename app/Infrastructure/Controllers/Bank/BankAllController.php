@@ -1,0 +1,127 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Infrastructure\Controllers\Bank;
+
+use App\Application\BankUseCase\BankAllUseCase;
+use App\Http\Requests\Bank\BankAllRequest;
+use App\Http\Resources\Bank\BankCollection;
+use App\Infrastructure\Repositories\BankRepository;
+use App\Traits\ApiMessage;
+use App\Traits\ApiResponser;
+use Exception;
+use OpenApi\Annotations as OA;
+
+final class BankAllController
+{
+    use ApiResponser;
+    use ApiMessage;
+    private $bankRepository;
+
+    public function __construct(BankRepository $bankRepository)
+    {
+        $this->bankRepository = $bankRepository;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/Banks/All",
+     *     summary="Listar bancos",
+     *     description="Obtiene un listado paginado de bancos (incluye eliminados lógicamente).",
+     *     tags={"Banks"},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         required=false,
+     *         description="Término de búsqueda por nombre o descripción",
+     *         @OA\Schema(type="string", maxLength=100, example="Banco Nacional")
+     *     ),
+     *     @OA\Parameter(
+     *         name="perPage",
+     *         in="query",
+     *         required=false,
+     *         description="Número de registros por página",
+     *         @OA\Schema(type="integer", example=15)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Los bancos consultados exitosamente.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="banks", type="array",
+     *                     @OA\Items(type="object",
+     *                         @OA\Property(property="id", type="integer", example=12),
+     *                         @OA\Property(property="item", type="object",
+     *                             @OA\Property(property="id", type="integer", example=14),
+     *                             @OA\Property(property="name", type="string", example="Bancos")
+     *                         ),
+     *                         @OA\Property(property="name", type="string", example="Banco Nacional"),
+     *                         @OA\Property(property="description", type="string", example="Entidad financiera de cobertura nacional."),
+     *                         @OA\Property(property="settings", type="object", example={"swift":"BNACCOBB","country":"CO"}),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2025-01-10 09:30:00"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2025-02-15 12:45:00"),
+     *                         @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, example=null)
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="meta", type="object",
+     *                     @OA\Property(property="pagination", type="object",
+     *                         @OA\Property(property="total", type="integer", example=40),
+     *                         @OA\Property(property="count", type="integer", example=10),
+     *                         @OA\Property(property="per_page", type="integer", example=10),
+     *                         @OA\Property(property="current_page", type="integer", example=1),
+     *                         @OA\Property(property="total_pages", type="integer", example=4)
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Los bancos consultados exitosamente."),
+     *             @OA\Property(property="error", type="boolean", example=false),
+     *             @OA\Property(property="status", type="integer", example=200)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error de validación."),
+     *             @OA\Property(property="attributes", type="object",
+     *                 @OA\Property(property="search", type="string", example="Término de búsqueda"),
+     *                 @OA\Property(property="perPage", type="string", example="Número de registros por página")
+     *             ),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="search", type="array", @OA\Items(type="string", example="Debe ser una cadena de caracteres.")),
+     *                 @OA\Property(property="perPage", type="array", @OA\Items(type="string", example="Debe ser un valor numérico."))
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error inesperado al obtener los bancos.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Se ha producido un error."),
+     *             @OA\Property(property="error", type="string", example="Error al obtener los bancos: Error en la base de datos.")
+     *         )
+     *     )
+     * )
+     */
+    public function __invoke(BankAllRequest $request)
+    {
+        try {
+            $bankAllUseCase = new BankAllUseCase($this->bankRepository);
+            $banks = new BankCollection($bankAllUseCase->__invoke($request));
+            return $this->successResponse(
+                $banks,
+                'Los bancos consultados exitosamente.',
+                200
+            );
+        } catch (Exception $e) {
+            return $this->errorResponse(
+                [
+                    'message' => $this->getMessage('Exception'),
+                    'error' => $e->getMessage()
+                ],
+                500
+            );
+        }
+    }
+}
